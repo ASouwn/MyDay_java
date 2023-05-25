@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.myday.DB.DBHelper;
+import com.example.myday.Manager.DBHelper;
 import com.example.myday.DB.DBStruct;
 import com.example.myday.R;
 

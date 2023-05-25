@@ -1,17 +1,15 @@
 package com.example.myday.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.myday.DB.DBHelper;
+import com.example.myday.Manager.DBHelper;
 import com.example.myday.DB.DBStruct;
 import com.example.myday.R;
 

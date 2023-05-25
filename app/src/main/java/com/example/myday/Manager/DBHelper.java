@@ -1,4 +1,4 @@
-package com.example.myday.DB;
+package com.example.myday.Manager;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.myday.DB.DBStruct;
 
 import java.util.ArrayList;
 import java.util.Date;
