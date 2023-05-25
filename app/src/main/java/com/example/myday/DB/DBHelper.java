@@ -48,11 +48,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public int add(@NonNull DBStruct main_date){
         ContentValues contentValues = new ContentValues();
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
-        contentValues.put(ID,main_date.getId());
         contentValues.put(CONTENT,main_date.getContent());
         contentValues.put(DATE,main_date.getDate());
         contentValues.put(TITLE,main_date.getTitle());
-        long insert = sqLiteDatabase.insert(TABLE_NAME,DATE,contentValues);
+        long insert = sqLiteDatabase.insert(TABLE_NAME,CONTENT,contentValues);
+
         sqLiteDatabase.close();
         if (insert==-1){
             return 0;
@@ -74,13 +74,13 @@ public class DBHelper extends SQLiteOpenHelper {
     public int rewrite(@NonNull DBStruct main_date){
         ContentValues contentValues = new ContentValues();
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
-        contentValues.put(String.valueOf(ID),main_date.getId());
+
         contentValues.put(CONTENT,main_date.getContent());
         contentValues.put(DATE,main_date.getDate());
         contentValues.put(TITLE,main_date.getTitle());
 
-        int update = sqLiteDatabase.update(TABLE_NAME,contentValues,CONTENT+"?",
-                new String[]{main_date.getContent()});
+        int update = sqLiteDatabase.update(TABLE_NAME,contentValues,ID+"=?",
+                new String[]{String.valueOf(main_date.getId())});
         sqLiteDatabase.close();
         if (update==0){
             return 0;

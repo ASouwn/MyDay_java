@@ -23,11 +23,11 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        button2=findViewById(R.id.button2);//finish and add
-        button3=findViewById(R.id.button3);//return
-        textView=findViewById(R.id.editTextText);//title
-        textView2=findViewById(R.id.editTextText2);//date
-        textView3=findViewById(R.id.editTextText3);//content
+        button2=findViewById(R.id.rewrite_finish);//finish and add
+        button3=findViewById(R.id.rewrite_return);//return
+        textView=findViewById(R.id.rewrite_title);//title
+        textView2=findViewById(R.id.rewrite_date);//date
+        textView3=findViewById(R.id.rewrite_content);//content
 
 
         //function return
@@ -52,7 +52,7 @@ public class MainActivity2 extends AppCompatActivity {
                 );
                 DBHelper dbHelper=new DBHelper(MainActivity2.this);
                 dbHelper.add(dbStruct);
-                //return
+                //and return
                 Intent intent=new Intent(MainActivity2.this, MainActivity.class);
                 startActivity(intent);
             }
