@@ -6,15 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Stack;
 
-public class DBHelper extends SQLiteOpenHelper {
+import java.util.List;
+
+
+
+
+public class dateBaseHelper extends SQLiteOpenHelper {
 
     private static String NAME="myDates.db";
     private static int version=1;
@@ -25,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String DATE="date";
     private static String CONTENT="content";
 
-    public DBHelper(@Nullable Context context ) {
+    public dateBaseHelper(@Nullable Context context ) {
         super(context, NAME, null, version);
     }
 
@@ -33,7 +36,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(@NonNull SQLiteDatabase db) {
         String DBManager_SQL=
                 "CREATE TABLE " +TABLE_NAME+" ("
-                        +ID +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                        +ID +" INTERGER PRIMARY KEY AUTOINCREMENT, "
                         +TITLE+" TEXT, "
                         +DATE+" TEXT, "
                         +CONTENT+" TEXT)";
@@ -95,18 +98,18 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor= sqLiteDatabase.rawQuery(sql,null);
         DBStruct dbStruct;
 
-        int idIndex= cursor.getColumnIndex(String.valueOf(ID));
+        int idIndex= cursor.getColumnIndex(ID);
         int titleIndex= cursor.getColumnIndex(TITLE);
         int dateIndex= cursor.getColumnIndex(DATE);
         int contentIndex= cursor.getColumnIndex(CONTENT);
 
         while (cursor.moveToNext()){
-             dbStruct =new DBStruct (
-                     cursor.getInt(idIndex),
-                     cursor.getString(titleIndex),
-                     cursor.getString(dateIndex),
-                     cursor.getString(contentIndex));
-             list.add(dbStruct);
+            dbStruct =new DBStruct (
+                    cursor.getInt(idIndex),
+                    cursor.getString(titleIndex),
+                    cursor.getString(dateIndex),
+                    cursor.getString(contentIndex));
+            list.add(dbStruct);
         }
         sqLiteDatabase.close();
         cursor.close();
@@ -131,3 +134,5 @@ public class DBHelper extends SQLiteOpenHelper {
         return list;
     }
 }
+
+

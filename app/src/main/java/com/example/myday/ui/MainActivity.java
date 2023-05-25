@@ -1,22 +1,18 @@
 package com.example.myday.ui;
 
-
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
-import com.example.myday.DB.DBHelper;
 import com.example.myday.DB.DBStruct;
+import com.example.myday.DB.dateBaseHelper;
 import com.example.myday.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -25,7 +21,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     ListView view_all;
     Button button;
-    DBHelper dbHelper=new DBHelper(MainActivity.this);
+
+//    DBHelper dbHelper=new DBHelper(MainActivity.this);
+    dateBaseHelper dbHelper=new dateBaseHelper(MainActivity.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,34 +34,24 @@ public class MainActivity extends AppCompatActivity {
         button=findViewById(R.id.button);
         view_all=findViewById(R.id.view_all);
 
-/**
- * 有问题，出现闪退
- */
+
 //        ArrayAdapter<DBStruct> arrayAdapter=new ArrayAdapter<>(
 //                MainActivity.this,
 //                android.R.layout.simple_list_item_1,
-//                list);
+//                dbHelper.show());
 //        view_all.setAdapter(arrayAdapter);
 
+        getlist_view();
 
+
+        //add new function button
         button.setOnClickListener(v -> {
             Intent intent=new Intent(MainActivity.this, MainActivity2.class);
             startActivity(intent);
         });
 
 
-
-       /*
-
-        viewall(dbHelper);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
+        //function when attach the position
         view_all.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
@@ -85,24 +74,28 @@ public class MainActivity extends AppCompatActivity {
                 builder.setNegativeButton("删除", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dbHelper.delete(dbStruct);
-                        viewall(dbHelper);
+                        /*dbHelper.delete(dbStruct);
+                        viewall(dbHelper);*/
                     }
                 });
 
                 builder.create();
                 builder.show();
             }
-        });*/
+        });
 
 
 
     }
 
-//    private void show_all(DBHelper dbHelper) {
-//        ArrayAdapter<DBStruct> arrayAdapter=new ArrayAdapter<>(MainActivity.this,
-//                android.R.layout.simple_list_item_1,
-//                dbHelper.show());
-//        view_all.setAdapter(arrayAdapter);
-//    }
+    private void getlist_view() {
+        DBAdapter adapter=new DBAdapter(
+                MainActivity.this,
+                R.layout.list_view,
+                dbHelper.show().toArray(new DBStruct[0])
+        );
+        view_all.setAdapter(adapter);
+    }
+
+
 }
