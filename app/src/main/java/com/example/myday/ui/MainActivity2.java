@@ -46,9 +46,9 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 DBStruct dbStruct =new DBStruct(
                         -1,
-                        (String) textView.getText(),
-                        (String) textView2.getText(),
-                        (String) textView3.getText()
+                        textView.getText().toString(),
+                        textView2.getText().toString(),
+                        textView3.getText().toString()
                 );
                 DBHelper dbHelper=new DBHelper(MainActivity2.this);
                 dbHelper.add(dbStruct);
