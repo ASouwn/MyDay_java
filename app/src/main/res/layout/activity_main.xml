@@ -28,7 +28,7 @@
         app:layout_constraintHorizontal_bias="0.81"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view_all"
-        app:layout_constraintVertical_bias="0.89" />
+        app:layout_constraintVertical_bias="0.48000002" />
 
     <Button
         android:id="@+id/main_review"
@@ -42,5 +42,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/view_all"
         app:layout_constraintEnd_toEndOf="@+id/view_all"
         app:layout_constraintStart_toStartOf="@+id/view_all"
-        app:layout_constraintTop_toTopOf="@+id/view_all" />
+        app:layout_constraintTop_toTopOf="@+id/view_all"
+        app:layout_constraintVertical_bias="0.62" />
+
+    <Button
+        android:id="@+id/author_self"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="self"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_all"
+        app:layout_constraintVertical_bias="0.96" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,7 +21,7 @@ import com.example.myday.R;
  */
 public class MainActivity extends AppCompatActivity {
     ListView view_all;
-    Button button,review;
+    Button button,review,self;
 
 //    DBHelper dbHelper=new DBHelper(MainActivity.this);
     DBHelper dbHelper= new DBHelper(MainActivity.this);
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         button=findViewById(R.id.button);
         review=findViewById(R.id.main_review);
         view_all=findViewById(R.id.view_all);
+        self=findViewById(R.id.author_self);
 
 
 //        ArrayAdapter<DBStruct> arrayAdapter=new ArrayAdapter<>(
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
         getlist_view();
 
+        //jump to self_center
+        self.setOnClickListener(v -> {
+            Intent intent=new Intent(MainActivity.this,Author.class);
+            startActivity(intent);
+        });
+
 
         //add new function button
         button.setOnClickListener(v -> {
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //refresh the main_manu
         review.setOnClickListener(v -> {
             getlist_view();
         });

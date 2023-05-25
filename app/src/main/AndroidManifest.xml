@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MyDay"
         tools:targetApi="31">
         <activity
+            android:name=".ui.Author"
+            android:exported="false" />
+        <activity
             android:name=".ui.rewrite"
             android:exported="false" />
         <activity
