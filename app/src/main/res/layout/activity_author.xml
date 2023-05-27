@@ -50,8 +50,22 @@
         app:layout_constraintTop_toBottomOf="@+id/author_lastname"
         app:layout_constraintVertical_bias="0.118" />
 
+    <EditText
+        android:id="@+id/SELF"
+        android:layout_width="347dp"
+        android:layout_height="94dp"
+        android:ems="10"
+        android:hint="about your self"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/author_birthday"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/author_birthday"
+        app:layout_constraintTop_toBottomOf="@+id/author_birthday"
+        app:layout_constraintVertical_bias="0.312" />
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/author_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/author_fistname"
@@ -61,4 +75,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.326"
         tools:srcCompat="@tools:sample/avatars[3]" />
+
+    <Button
+        android:id="@+id/Author_renew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="renew"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/SELF"
+        app:layout_constraintStart_toStartOf="@+id/SELF"
+        app:layout_constraintTop_toBottomOf="@+id/SELF"
+        app:layout_constraintVertical_bias="0.65999997" />
+
+    <Button
+        android:id="@+id/author_return"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="return"
+        app:layout_constraintBottom_toBottomOf="@+id/Author_renew"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Author_renew"
+        app:layout_constraintTop_toTopOf="@+id/Author_renew" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

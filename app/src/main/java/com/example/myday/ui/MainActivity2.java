@@ -40,22 +40,18 @@ public class MainActivity2 extends AppCompatActivity {
         });
 
         //after finish add, return
-        button2.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                DBStruct dbStruct =new DBStruct(
-                        -1,
-                        textView.getText().toString(),
-                        textView2.getText().toString(),
-                        textView3.getText().toString()
-                );
-                DBHelper dbHelper=new DBHelper(MainActivity2.this);
-                dbHelper.add(dbStruct);
-                //and return
-                Intent intent=new Intent(MainActivity2.this, MainActivity.class);
-                startActivity(intent);
-            }
+        button2.setOnClickListener(v -> {
+            DBStruct dbStruct =new DBStruct(
+                    -1,
+                    textView.getText().toString(),
+                    textView2.getText().toString(),
+                    textView3.getText().toString()
+            );
+            DBHelper dbHelper=new DBHelper(MainActivity2.this);
+            dbHelper.add(dbStruct);
+            //and return
+            Intent intent=new Intent(MainActivity2.this, MainActivity.class);
+            startActivity(intent);
         });
 
     }

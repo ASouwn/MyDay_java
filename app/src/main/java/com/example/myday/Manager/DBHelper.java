@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.myday.DB.DBStruct;
+import com.example.myday.DB.DBVersion_and_Name;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +19,8 @@ import java.util.Stack;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static String NAME="myDates.db";
-    private static int version=1;
+    private static String NAME=DBVersion_and_Name.getNAME();
+    private static int VERSION=DBVersion_and_Name.getVersion();
 
     private static String TABLE_NAME="mydate";
     private static String ID="id";
@@ -28,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String CONTENT="content";
 
     public DBHelper(@Nullable Context context ) {
-        super(context, NAME, null, version);
+        super(context, NAME, null, VERSION);
     }
 
     @Override
