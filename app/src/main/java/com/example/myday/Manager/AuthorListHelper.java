@@ -17,7 +17,7 @@ import java.util.List;
 
 public class AuthorListHelper extends SQLiteOpenHelper {
 
-    private static String NAME = DBVersion_and_Name.getNAME();
+    private static String NAME = "author.db";
     private static int VERSION =DBVersion_and_Name.getVersion();
 
 
@@ -38,10 +38,16 @@ public class AuthorListHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql= "CREATE TABLE "+TABLE_NAME+" (" +ID+" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +FIRST_NAME+" TEXT, " +LAST_NAME+" TEXT, " +BIRTH+" TEXT, " +SELF+" TEXT)";
-        String Insert= "INSERT INTO "+TABLE_NAME+"("+ID+","+ FIRST_NAME+ ","+LAST_NAME+","+BIRTH+","+SELF+") "+"VALUES('Tang','ASouwn','2002-12-25','A_Happy_Man')";
+        String sql= "CREATE TABLE " +TABLE_NAME+" ("
+                +ID +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
+                +FIRST_NAME+" TEXT, "
+                +LAST_NAME+" TEXT, "
+                +BIRTH+" TEXT, "
+                +SELF+" TEXT)";
+        String insert="INSERT INTO "+TABLE_NAME+" ("+ID+","+FIRST_NAME+","+LAST_NAME+","+BIRTH+","+SELF+") " +
+                "VALUES ('0','tang','ASouwn','2002-12-25','A Happy Man')";
         db.execSQL(sql);
-        db.execSQL(Insert);//inset the information
+        db.execSQL(insert);//inset the information
     }
 
     @Override
@@ -49,37 +55,60 @@ public class AuthorListHelper extends SQLiteOpenHelper {
 
     }
 
+//    private void add(){
+//        ContentValues contentValues=new ContentValues();
+//        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+//
+//        contentValues.put(FIRST_NAME,"Tang");
+//        contentValues.put(LAST_NAME,"ASouwn");
+//        contentValues.put(BIRTH,"2002-12-25");
+//        contentValues.put(SELF,"A Happy Man");
+//
+//        sqLiteDatabase.insert(TABLE_NAME,FIRST_NAME,contentValues);
+//
+//        sqLiteDatabase.close();
+//    }
+
     public AuthorStruct list(){
         SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
         String sql="SELECT * FROM "+TABLE_NAME;
         Cursor cursor= sqLiteDatabase.rawQuery(sql,null);
         AuthorStruct authorStruct;
+        List<AuthorStruct> list=new ArrayList<>();
 
         int IDIndex=cursor.getColumnIndex(ID);
         int FName=cursor.getColumnIndex(FIRST_NAME);
         int LName=cursor.getColumnIndex(LAST_NAME);
         int Birth=cursor.getColumnIndex(BIRTH);
         int Self=cursor.getColumnIndex(SELF);
-
-        cursor.moveToFirst();
-        authorStruct=new AuthorStruct(
-                cursor.getInt(IDIndex),
-                cursor.getString(FName),
-                cursor.getString(LName),
-                cursor.getString(Birth),
-                cursor.getString(Self));
-
+        while (cursor.moveToNext()){
+            authorStruct=new AuthorStruct(
+                    cursor.getInt(IDIndex),
+                    cursor.getString(FName),
+                    cursor.getString(LName),
+                    cursor.getString(Birth),
+                    cursor.getString(Self));
+            list.add(authorStruct);
+        }
 
         sqLiteDatabase.close();
         cursor.close();
-        return authorStruct;
+        return list.get(0);
     }
 
 
     public String renew(AuthorStruct authorStruct){
+        ContentValues contentValues=new ContentValues();
+        SQLiteDatabase sqLiteDatabase =this.getWritableDatabase();
 
+        contentValues.put(FIRST_NAME,authorStruct.getFIRST_NAME());
+        contentValues.put(LAST_NAME,authorStruct.getLAST_NAME());
+        contentValues.put(BIRTH,authorStruct.getBIRTH());
+        contentValues.put(SELF,authorStruct.getSELF());
 
+        sqLiteDatabase.update(TABLE_NAME,contentValues,ID+"=?",new String[]{String.valueOf(authorStruct.getID())});
 
+        sqLiteDatabase.close();
         return "success";
     }
 

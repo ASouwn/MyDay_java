@@ -51,9 +51,11 @@ public class DBHelper extends SQLiteOpenHelper {
     public int add(@NonNull DBStruct main_date){
         ContentValues contentValues = new ContentValues();
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
         contentValues.put(CONTENT,main_date.getContent());
         contentValues.put(DATE,main_date.getDate());
         contentValues.put(TITLE,main_date.getTitle());
+
         long insert = sqLiteDatabase.insert(TABLE_NAME,CONTENT,contentValues);
 
         sqLiteDatabase.close();
