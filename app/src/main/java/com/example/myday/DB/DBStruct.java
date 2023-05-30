@@ -6,11 +6,31 @@ public class DBStruct {
     private String date;
     private String content;
 
+    //add by v2
+    private String weather;
+
+    //struct v2
+    public DBStruct(Integer id, String title, String date, String content, String weather) {
+        this.id = id;
+        this.title = title;
+        this.date = date;
+        this.content = content;
+        this.weather = weather;
+    }
+
     public DBStruct(int id, String title, String date, String content) {
         this.id = id;
         this.title = title;
         this.date = date;
         this.content = content;
+    }
+
+    public String getWeather() {
+        return weather;
+    }
+
+    public void setWeather(String weather) {
+        this.weather = weather;
     }
 
     public Integer getId() {
