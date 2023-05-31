@@ -22,23 +22,26 @@ public class rewrite extends AppCompatActivity {
         setContentView(R.layout.activity_rewrite);
 
         Intent intent=getIntent();
-        TextView title,date,content;
+        TextView title,date,content,weather;
         Button _return,_finish;
 
         String title_get=intent.getStringExtra("title");
         String date_get=intent.getStringExtra("date");
         String content_get=intent.getStringExtra("content");
         Integer id=intent.getIntExtra("id",0);
+        String weather_get=intent.getStringExtra("weather");
 
         title=findViewById(R.id.rewrite_title);
         date=findViewById(R.id.rewrite_date);
         content=findViewById(R.id.rewrite_content);
         _return=findViewById(R.id.rewrite_return);
         _finish=findViewById(R.id.rewrite_finish);
+        weather=findViewById(R.id.rewrite_weather);
 
         title.setText(title_get);
         date.setText(date_get);
         content.setText(content_get);
+        weather.setText(weather_get);
 
 
         //function return
@@ -58,8 +61,9 @@ public class rewrite extends AppCompatActivity {
                 DBStruct dbStruct =new DBStruct(
                         id,
                         title.getText().toString(),
-                        date.getText().toString(),
-                        content.getText().toString()
+                        date_get,
+                        content.getText().toString(),
+                        weather_get
                 );
                 DBHelper dbHelper=new DBHelper(rewrite.this);
                 dbHelper.rewrite(dbStruct);

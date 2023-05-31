@@ -18,12 +18,12 @@ public class DBStruct {
         this.weather = weather;
     }
 
-    public DBStruct(int id, String title, String date, String content) {
-        this.id = id;
-        this.title = title;
-        this.date = date;
-        this.content = content;
-    }
+//    public DBStruct(int id, String title, String date, String content) {
+//        this.id = id;
+//        this.title = title;
+//        this.date = date;
+//        this.content = content;
+//    }
 
     public String getWeather() {
         return weather;

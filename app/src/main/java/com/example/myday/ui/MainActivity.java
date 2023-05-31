@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amap.api.services.core.AMapException;
+import com.amap.api.services.weather.LocalDayWeatherForecast;
+import com.amap.api.services.weather.LocalWeatherForecast;
 import com.amap.api.services.weather.LocalWeatherForecastResult;
 import com.amap.api.services.weather.LocalWeatherLive;
 import com.amap.api.services.weather.LocalWeatherLiveResult;
@@ -25,6 +27,8 @@ import com.example.myday.DB.DBStruct;
 import com.example.myday.R;
 import com.example.myday.util.ToastUtil;
 
+import java.util.List;
+
 
 /**
  * 首页面
@@ -32,6 +36,7 @@ import com.example.myday.util.ToastUtil;
 public class MainActivity extends AppCompatActivity implements WeatherSearch.OnWeatherSearchListener {
     ListView view_all;
     Button button,review,self;
+
 
     //about weather layout
 //    private TextView reporttime1;
@@ -49,6 +54,14 @@ public class MainActivity extends AppCompatActivity implements WeatherSearch.OnW
     private String cityname = "南京市";
     private WeatherSearch mweathersearch;
     private LocalWeatherLive weatherlive;
+
+    String weather_get;
+
+    //about weather forecast
+    TextView one,two,three;
+//    TextView[] getWeatherForecast;
+    private LocalWeatherForecast weatherforecast;
+    private List<LocalDayWeatherForecast> forecastlist = null;
 
 
 
@@ -88,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements WeatherSearch.OnW
 //        reporttime1=findViewById(R.id.reporttime1);
         humidity=findViewById(R.id.humidity);
 
+        one=findViewById(R.id.tomorow);
+        two=findViewById(R.id.after_tomorow);
+        three=findViewById(R.id.twodays_later);
+
 
 //        ArrayAdapter<DBStruct> arrayAdapter=new ArrayAdapter<>(
 //                MainActivity.this,
@@ -96,7 +113,10 @@ public class MainActivity extends AppCompatActivity implements WeatherSearch.OnW
 //        view_all.setAdapter(arrayAdapter);
 
         searchliveweather();
+        searchforcastsweather();
         getlist_view();
+
+
 
         //jump to self_center
         self.setOnClickListener(v -> {
@@ -108,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements WeatherSearch.OnW
         //add new function button
         button.setOnClickListener(v -> {
             Intent intent=new Intent(MainActivity.this, MainActivity2.class);
+            weather_get=weatherlive.getWeather();
+            intent.putExtra("weather",weather_get);
             startActivity(intent);
         });
 
@@ -121,12 +143,13 @@ public class MainActivity extends AppCompatActivity implements WeatherSearch.OnW
             DBStruct dbStruct=(DBStruct) parent.getItemAtPosition(position);
 
             AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
-            builder.setPositiveButton("修改", (dialog, which) -> {
+            builder.setPositiveButton("查看", (dialog, which) -> {
                 Intent intent=new Intent(MainActivity.this, rewrite.class);
                 intent.putExtra("id",dbStruct.getId());
                 intent.putExtra("content",dbStruct.getContent());
                 intent.putExtra("date",dbStruct.getDate());
                 intent.putExtra("title",dbStruct.getTitle());
+                intent.putExtra("weather",dbStruct.getWeather());
                 startActivity(intent);
             });
 
@@ -151,21 +174,6 @@ public class MainActivity extends AppCompatActivity implements WeatherSearch.OnW
         );
         view_all.setAdapter(adapter);
     }
-    /**
-     * 实时天气查询
-     */
-    private void searchliveweather() {
-        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_LIVE);//检索参数为城市和天气类型，实时天气为1、天气预报为2
-        try {
-            mweathersearch = new WeatherSearch(this);
-            mweathersearch.setOnWeatherSearchListener(this);
-            mweathersearch.setQuery(mquery);
-            mweathersearch.searchWeatherAsyn(); //异步搜索
-        } catch (AMapException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     public void onWeatherLiveSearched(LocalWeatherLiveResult weatherLiveResult, int rCode) {
@@ -186,7 +194,102 @@ public class MainActivity extends AppCompatActivity implements WeatherSearch.OnW
     }
 
     @Override
-    public void onWeatherForecastSearched(LocalWeatherForecastResult localWeatherForecastResult, int i) {
+    public void onWeatherForecastSearched(LocalWeatherForecastResult weatherForecastResult, int rCode) {
+        if (rCode == AMapException.CODE_AMAP_SUCCESS) {
+            if (weatherForecastResult != null && weatherForecastResult.getForecastResult() != null
+                    && weatherForecastResult.getForecastResult().getWeatherForecast() != null
+                    && weatherForecastResult.getForecastResult().getWeatherForecast().size() > 0) {
+                weatherforecast = weatherForecastResult.getForecastResult();
+                forecastlist = weatherforecast.getWeatherForecast();
+                fillforecast();
 
+            } else {
+                ToastUtil.show(MainActivity.this, R.string.no_result);
+            }
+        } else {
+            ToastUtil.showerror(MainActivity.this, rCode);
+        }
+    }
+    /**
+     * 实时天气查询
+     */
+    private void searchliveweather() {
+        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_LIVE);
+        try {
+            mweathersearch = new WeatherSearch(this);
+            mweathersearch.setOnWeatherSearchListener(this);
+            mweathersearch.setQuery(mquery);
+            mweathersearch.searchWeatherAsyn(); //异步搜索
+        } catch (AMapException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 预报天气查询
+     */
+    private void searchforcastsweather() {
+        mquery = new WeatherSearchQuery(cityname, WeatherSearchQuery.WEATHER_TYPE_FORECAST);//检索参数为城市和天气类型，实时天气为1、天气预报为2
+        try {
+            mweathersearch = new WeatherSearch(this);
+            mweathersearch.setOnWeatherSearchListener(this);
+            mweathersearch.setQuery(mquery);
+            mweathersearch.searchWeatherAsyn(); //异步搜索
+        } catch (AMapException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void fillforecast() {
+        int i_length=(3<forecastlist.size()?3: forecastlist.size());
+        for (int i = 0; i < i_length; i++) {
+            String forecast ;
+            LocalDayWeatherForecast localdayweatherforecast = forecastlist.get(i);
+            String week = null;
+            switch (Integer.valueOf(localdayweatherforecast.getWeek())) {
+                case 1:
+                    week = "周一";
+                    break;
+                case 2:
+                    week = "周二";
+                    break;
+                case 3:
+                    week = "周三";
+                    break;
+                case 4:
+                    week = "周四";
+                    break;
+                case 5:
+                    week = "周五";
+                    break;
+                case 6:
+                    week = "周六";
+                    break;
+                case 7:
+                    week = "周日";
+                    break;
+                default:
+                    break;
+            }
+            String temp = String.format("%-3s/%3s",
+                    localdayweatherforecast.getDayTemp() + "°",
+                    localdayweatherforecast.getNightTemp() + "°");
+            String Weather =localdayweatherforecast.getDayWeather();
+            forecast = week + " " +" "+Weather+" "+ temp;
+            switch (i){
+                case 0:
+                    one.setText(forecast);
+                    break;
+                case 1:
+                    two.setText(forecast);
+                    break;
+                case 2:
+                    three.setText(forecast);
+                default:
+                    break;
+            }
+        }
     }
 }

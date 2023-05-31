@@ -19,18 +19,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/rewrite_date"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="date"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.064"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rewrite_title" />
+
+    <TextView
+        android:id="@+id/rewrite_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:ems="10"
+        android:hint="weather"
+        app:layout_constraintBottom_toBottomOf="@+id/rewrite_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.626"
+        app:layout_constraintStart_toEndOf="@+id/rewrite_date"
+        app:layout_constraintTop_toTopOf="@+id/rewrite_date"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/rewrite_content"
@@ -68,4 +81,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.938" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String TITLE="title";
     private static String DATE="date";
     private static String CONTENT="content";
+    private static String WEATHER="weather";
 
     public DBHelper(@Nullable Context context ) {
         super(context, NAME, null, VERSION);
@@ -45,6 +46,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        switch (newVersion){
+            case 1:;
+            case 2:
+                String sql="ALTER TABLE "+TABLE_NAME+" ADD "+WEATHER+" TEXT";
+                db.execSQL(sql);
+                break;
+        }
 
     }
 
@@ -55,6 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(CONTENT,main_date.getContent());
         contentValues.put(DATE,main_date.getDate());
         contentValues.put(TITLE,main_date.getTitle());
+        contentValues.put(WEATHER,main_date.getWeather());
 
         long insert = sqLiteDatabase.insert(TABLE_NAME,CONTENT,contentValues);
 
@@ -83,6 +92,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(CONTENT,main_date.getContent());
         contentValues.put(DATE,main_date.getDate());
         contentValues.put(TITLE,main_date.getTitle());
+        contentValues.put(WEATHER,main_date.getWeather());
 
         int update = sqLiteDatabase.update(TABLE_NAME,contentValues,ID+"=?",
                 new String[]{String.valueOf(main_date.getId())});
@@ -104,13 +114,15 @@ public class DBHelper extends SQLiteOpenHelper {
         int titleIndex= cursor.getColumnIndex(TITLE);
         int dateIndex= cursor.getColumnIndex(DATE);
         int contentIndex= cursor.getColumnIndex(CONTENT);
+        int weatherIndex= cursor.getColumnIndex(WEATHER);
 
         while (cursor.moveToNext()){
              dbStruct =new DBStruct (
                      cursor.getInt(idIndex),
                      cursor.getString(titleIndex),
                      cursor.getString(dateIndex),
-                     cursor.getString(contentIndex));
+                     cursor.getString(contentIndex),
+                     cursor.getString(weatherIndex));
              list.add(dbStruct);
         }
         sqLiteDatabase.close();
@@ -118,21 +130,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return list;
     }
-    public List<String> list() {
-        List<String> list = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String sql = "SELECT * FROM " + TABLE_NAME;
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-
-        String s;
-        int titleIndex = cursor.getColumnIndex(TITLE);
-        int dateIndex = cursor.getColumnIndex(DATE);
-
-        while (cursor.moveToNext()) {
-            s=cursor.getString(dateIndex)+" "+cursor.getString(titleIndex);
-            list.add(s);
-        }
-        sqLiteDatabase.close();
-        return list;
-    }
+//    public List<String> list() {
+//        List<String> list = new ArrayList<>();
+//        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+//        String sql = "SELECT * FROM " + TABLE_NAME;
+//        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+//
+//        String s;
+//        int titleIndex = cursor.getColumnIndex(TITLE);
+//        int dateIndex = cursor.getColumnIndex(DATE);
+//
+//        while (cursor.moveToNext()) {
+//            s=cursor.getString(dateIndex)+" "+cursor.getString(titleIndex);
+//            list.add(s);
+//        }
+//        sqLiteDatabase.close();
+//        return list;
+//    }
 }
